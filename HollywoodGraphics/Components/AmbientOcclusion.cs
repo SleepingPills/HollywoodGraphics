@@ -1,4 +1,6 @@
-﻿namespace HollywoodGraphics.Components;
+﻿using EFT.CameraControl;
+
+namespace HollywoodGraphics.Components;
 
 public class AmbientOcclusion
 {
@@ -8,7 +10,7 @@ public class AmbientOcclusion
 
     public AmbientOcclusion()
     {
-        var camera = CameraClass.Instance?.Camera;
+        var camera = CameraManager.Instance?.Camera;
 
         if (camera == null)
         {

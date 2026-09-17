@@ -4,7 +4,6 @@ using EFT;
 using EFT.Interactive;
 using GPUInstancer;
 using HarmonyLib;
-using MultiFlare;
 using SPT.Reflection.Patching;
 
 namespace HollywoodGraphics;
@@ -31,7 +30,7 @@ public class GraphicsRaidInitPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return typeof(TarkovApplication).GetMethod(nameof(TarkovApplication.method_41));
+        return typeof(TarkovApplication).GetMethod(nameof(TarkovApplication.LocalGameMatching));
     }
 
     [PatchPrefix]
@@ -57,14 +56,14 @@ public class LampControllerAwakePostfixPatch : ModulePatch
 
     [PatchPrefix]
     // ReSharper disable InconsistentNaming
-    public static void Prefix(LampController __instance, FlareLight[] ___MultiFlareLights, MaterialEmission[] ____materialsWithEmission)
+    public static void Prefix(LampController __instance)
     {
         if (!Plugin.GraphicsConfig.LightFlareEnabled.Value)
             return;
         
         // Plugin.Log.LogInfo($"Found light: {__instance.name} lights: {___MultiFlareLights} alights: {__instance.CustomLights.Length}");
         
-        foreach (var flareLight in ___MultiFlareLights)
+        foreach (var flareLight in __instance.MultiFlareLights)
         {
             // Plugin.Log.LogInfo($"Flare light: {__instance.name} alpha {flareLight.Alpha} scale {flareLight.Scale} flares {flareLight.Flares.Count}");
             
